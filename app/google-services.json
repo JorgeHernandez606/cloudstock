@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "111535635768",
+    "project_id": "cloudstock-220e4",
+    "storage_bucket": "cloudstock-220e4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111535635768:android:18e18ec3f30c33cc54d5cd",
+        "android_client_info": {
+          "package_name": "com.jorgeHernandez.mycloudstock"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZoxfp3z8KGpm90hUJ9tRkZoUIiixJAVo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
