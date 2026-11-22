@@ -41,3 +41,21 @@ flowchart LR
     A[Android App<br/>Kotlin + Jetpack Compose] -->|Auth SDK| B[Firebase Authentication]
     A -->|Firestore SDK| C[(Cloud Firestore)]
     D[Cloud Functions<br/>Lab 3] -->|Validates stock| C
+
+
+## Tech Stack
+
+| Layer | Technology |
+| :--- | :--- |
+| **Mobile App** | Kotlin, Jetpack Compose, Material 3, Navigation Compose |
+| **Architecture** | MVVM (`StateFlow` + `ViewModel`), Repository pattern, Pure Kotlin validators |
+| **Authentication** | Firebase Authentication (Email/Password) |
+| **Cloud Database** | Cloud Firestore (EU region) + Firestore Security Rules |
+| **Testing** | JUnit 4, Kotlin Coroutines Test |
+
+## Definition of Done
+A user story or requirement is considered **Done** when:
+1. All acceptance criteria are met and verified on an Android emulator with Google Play Services.
+2. Input validation and security rules prevent invalid data or unauthorized access without crashing.
+3. Code is cleanly separated into Data, Logic/Domain, and UI layers with no backend SDK calls in UI composables.
+4. Changes are merged into `main` via a reviewed Pull Request linking `Closes #<issue-number>`, and the corresponding issue is moved to **Done**.
