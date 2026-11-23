@@ -1,0 +1,56 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isProductOwner(data) {
+      return isSignedIn() && data.userId == request.auth.uid;
+    }
+
+    function isValidProduct(data) {
+      return data.keys().hasAll([
+          'userId', 'name', 'categoryId', 'categoryName',
+          'stock', 'maxCapacity', 'status', 'rejectReason',
+          'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'userId', 'name', 'categoryId', 'categoryName',
+          'stock', 'maxCapacity', 'status', 'rejectReason',
+          'createdAt', 'updatedAt'
+        ])
+        && data.userId is string
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 60
+        && data.categoryId is string && data.categoryId.size() > 0
+        && data.categoryName is string && data.categoryName.size() > 0
+        && data.stock is int && data.stock >= 0
+        && data.maxCapacity is int && data.maxCapacity > 0
+        && data.stock <= data.maxCapacity
+        && data.status is string
+        && (data.rejectReason == null || data.rejectReason is string);
+    }
+
+    match /products/{productId} {
+      allow read, delete: if isProductOwner(resource.data);
+
+      allow create: if isProductOwner(request.resource.data)
+        && isValidProduct(request.resource.data)
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+
+      allow update: if isProductOwner(resource.data)
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.updatedAt == request.time
+        && isValidProduct(request.resource.data);
+    }
+
+    match /categories/{categoryId} {
+      allow read: if isSignedIn();
+      allow write: if false;
+    }
+  }
+}
